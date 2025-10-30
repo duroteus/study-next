@@ -8,7 +8,7 @@ async function query(queryObject) {
     return result;
   } catch (e) {
     console.error(e);
-    throw error;
+    throw e;
   } finally {
     await client.end();
   }
@@ -28,7 +28,9 @@ async function getNewClient() {
   return client;
 }
 
-export default {
+const database = {
   query,
   getNewClient,
 };
+
+export default database;

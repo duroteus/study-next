@@ -13,21 +13,19 @@ async function waitForAllServices() {
     });
 
     async function fetchStatusPage() {
-      try {
-        const response = await fetch("http://localhost:3000/api/v1/status");
+      const response = await fetch("http://localhost:3000/api/v1/status");
 
-        if (!response.ok) {
-          throw new Error(
-            `O servidor web está respondendo com o status: "${response.status}"`
-          );
-        }
-      } catch (e) {
-        throw e;
+      if (!response.ok) {
+        throw new Error(
+          `O servidor web está respondendo com o status: "${response.status}"`
+        );
       }
     }
   }
 }
 
-export default {
+const orchestrator = {
   waitForAllServices,
 };
+
+export default orchestrator;
