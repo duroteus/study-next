@@ -6,7 +6,7 @@ async function status(req, res) {
 
   const databaseQueryVersion = await database.query("SHOW server_version;");
   const databaseQueryMaxConnections = await database.query(
-    "SHOW max_connections;"
+    "SHOW max_connections;",
   );
   const databaseQueryConnections = await database.query({
     text: "SELECT COUNT(*)::int FROM pg_stat_activity WHERE datname = $1;",

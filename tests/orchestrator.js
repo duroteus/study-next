@@ -17,7 +17,7 @@ async function waitForAllServices() {
 
       if (!response.ok) {
         throw new Error(
-          `O servidor web está respondendo com o status: "${response.status}"`
+          `O servidor web está respondendo com o status: "${response.status}"`,
         );
       }
     }
