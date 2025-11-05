@@ -2,6 +2,13 @@ import database from "infra/database.js";
 import { InternalServerError } from "infra/errors";
 
 async function status(req, res) {
+  const allowedMethods = ["GET"];
+  if (!allowedMethods.includes(req.method)) {
+    return res.status(405).json({
+      error: `Method ${req.method} not allowed.`,
+    });
+  }
+
   try {
     const updatedAt = new Date().toISOString();
     const databaseName = process.env.POSTGRES_DB;
