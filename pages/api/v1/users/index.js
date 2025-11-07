@@ -1,7 +1,6 @@
 import { createRouter } from "next-connect";
 
 import user from "models/user.js";
-
 import controller from "infra/controller.js";
 
 const router = createRouter();
