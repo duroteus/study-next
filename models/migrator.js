@@ -4,11 +4,11 @@ import database from "infra/database.js";
 import { ServiceError } from "infra/errors.js";
 
 const defaultMigrationOptions = {
+  dryRun: true,
   dir: resolve("infra", "migrations"),
   direction: "up",
-  verbose: true,
+  log: () => {},
   migrationsTable: "pgmigrations",
-  dryRun: true,
 };
 
 async function listPendingMigrations() {
