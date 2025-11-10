@@ -20,7 +20,7 @@ describe("POST /api/v1/status", () => {
         message: "Método não permitido para este endpoint.",
         action:
           "Verifique se o método da requisição é válido para este endpoint.",
-        statusCode: 405,
+        status_code: 405,
       });
     });
   });
