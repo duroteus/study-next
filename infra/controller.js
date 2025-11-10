@@ -2,6 +2,7 @@ import {
   InternalServerError,
   MethodNotAllowedError,
   NotFoundError,
+  UnauthorizedError,
   ValidationError,
 } from "infra/errors";
 
@@ -11,13 +12,16 @@ function onNoMatchHandler(req, res) {
 }
 
 function onErrorHandler(error, req, res) {
-  if (error instanceof ValidationError || error instanceof NotFoundError) {
+  if (
+    error instanceof ValidationError ||
+    error instanceof NotFoundError ||
+    error instanceof UnauthorizedError
+  ) {
     return res.status(error.status_code).json(error);
   }
 
   const publicErrorObject = new InternalServerError({
     cause: error,
-    status_code: error.status_code,
   });
 
   console.log("\n Erro dentro do catch do next-connect \n");
