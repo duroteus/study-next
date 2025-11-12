@@ -20,6 +20,10 @@ function onErrorHandler(error, req, res) {
     error instanceof NotFoundError ||
     error instanceof UnauthorizedError
   ) {
+    if (error instanceof UnauthorizedError) {
+      clearSessionCookie(res);
+    }
+
     return res.status(error.status_code).json(error);
   }
 
