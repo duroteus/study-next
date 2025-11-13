@@ -1,3 +1,4 @@
+import webserver from "infra/webserver.js";
 import activation from "models/activation.js";
 import orchestrator from "tests/orchestrator.js";
 
@@ -10,7 +11,6 @@ beforeAll(async () => {
 
 describe("Use case: Registration Flow(all successful)", () => {
   let createUserResponseBody;
-
   test("Create user account", async () => {
     const createUserResponse = await fetch(
       "http://localhost:3000/api/v1/users",
@@ -45,15 +45,22 @@ describe("Use case: Registration Flow(all successful)", () => {
   test("Receive activation email", async () => {
     const lastEmail = await orchestrator.getLastEmail();
 
-    const activationToken = await activation.findOneByUserId(
-      createUserResponseBody.id,
-    );
-
     expect(lastEmail.sender).toBe("<contato@dev.com.br>");
     expect(lastEmail.recipients[0]).toBe("<registration@flow.com.br>");
     expect(lastEmail.subject).toBe("Ative seu cadastro!");
     expect(lastEmail.text).toContain("RegistrationFlow");
-    expect(lastEmail.text).toContain(activationToken.id);
+
+    const activationTokenId = orchestrator.extractUUID(lastEmail.text);
+
+    expect(lastEmail.text).toContain(
+      `${webserver.origin}/cadastro/ativar/${activationTokenId}`,
+    );
+
+    const activationTokenObject =
+      await activation.findOneValidById(activationTokenId);
+
+    expect(activationTokenObject.user_id).toBe(createUserResponseBody.id);
+    expect(activationTokenObject.used_at).toBe(null);
   });
 
   test("Activate account", async () => {});
