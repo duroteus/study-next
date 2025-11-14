@@ -117,6 +117,7 @@ async function sendEmailToUser(user, activationToken) {
 const activation = {
   create,
   activateUser,
+  activateUserByUserId,
   findOneValidById,
   sendEmailToUser,
 };
